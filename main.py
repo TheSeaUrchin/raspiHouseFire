@@ -54,6 +54,7 @@ def upload():
         #response = requests.post(url, files=files)
         time.sleep(3)
         print(f"Uploaded file {imageFile}")
+        print(f"ImageQueue:{images}")
         subprocess.Popen(["rm",imageFile])
         prodSem.release()
 
