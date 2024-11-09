@@ -10,7 +10,7 @@ endpoint = "upload"
 imagePath = "./fire.jpg"
 url = "http://" + serverName + "/" + endpoint
 threadCap = 2
-imageCap = 2
+imageCap = 3
 numThreads = 0
 
 # Very safe code
