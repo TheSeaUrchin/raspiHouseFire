@@ -45,8 +45,9 @@ def upload():
     while True:
         threadSem.acquire()
         with mutex:
-            imageFile = images.get()
             print(f"ImageQueue:{list(images.queue)}")
+            imageFile = images.get()
+
         files = {
             'id': ID,
             'file': (imageFile, open(imageFile, 'rb'))
