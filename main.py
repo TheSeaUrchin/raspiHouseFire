@@ -45,7 +45,6 @@ def upload():
     while True:
         threadSem.acquire()
         with mutex:
-            print(f"ImageQueue:{list(images.queue)}")
             imageFile = images.get()
 
         files = {
@@ -68,6 +67,7 @@ def run():
         imageName = getImage()
         with mutex:
             images.put(imageName)
+            print(f"ImageQueue:{list(images.queue)}")
         threadSem.release()
         time.sleep(1)
 
