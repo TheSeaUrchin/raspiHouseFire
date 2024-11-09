@@ -50,9 +50,10 @@ def upload():
             'id': ID,
             'file': (imageFile, open(imageFile, 'rb'))
         }
-        print(f"Uploaded file {imageFile}")
+
         #response = requests.post(url, files=files)
         time.sleep(3)
+        print(f"Uploaded file {imageFile}")
         subprocess.Popen(["rm",imageFile])
         prodSem.release()
 
