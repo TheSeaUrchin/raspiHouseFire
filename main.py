@@ -4,6 +4,7 @@ import threading
 import time
 import queue
 import os
+from ImageProcess import processImage
 
 serverName = "ismyhouseonfire.tech"
 endpoint = "upload"
@@ -34,8 +35,8 @@ def makeThreads():
 
 def getImage():
     # might change to subprocess, depends on how long upload takes compared to image capture
-    #os.system("./webcam.sh")
-    os.system("./testCam.sh")
+    # os.system("./webcam.sh")
+    # os.system("./testCam.sh")
     res = subprocess.run(["./testCam.sh"], capture_output=True, text=True)
     imageFile = res.stdout.strip()
     return imageFile
@@ -45,16 +46,18 @@ def upload():
     while True:
         threadSem.acquire()
         with mutex:
-            imageFile = images.get()
+            imageFile, lightOn = images.get()
+
 
         files = {
             'id': ID,
-            'file': (imageFile, open(imageFile, 'rb'))
+            'file': (imageFile, open(imageFile, 'rb')),
+            'lightOn': lightOn
         }
 
-        #response = requests.post(url, files=files)
+        # response = requests.post(url, files=files)
         time.sleep(3)
-        print(f"Uploaded file {imageFile}")
+        print(f"Uploaded file {imageFile}, lightOn is {lightOn}")
         subprocess.Popen(["rm",imageFile])
         prodSem.release()
 
@@ -65,8 +68,9 @@ def run():
     while True:
         prodSem.acquire()
         imageName = getImage()
+        lightOn = processImage(imageName)
         with mutex:
-            images.put(imageName)
+            images.put((imageName, lightOn))
             print(f"ImageQueue:{list(images.queue)}")
         threadSem.release()
         time.sleep(1)
