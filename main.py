@@ -10,6 +10,7 @@ endpoint = "upload"
 imagePath = "./fire.jpg"
 url = "http://" + serverName + "/" + endpoint
 threadCap = 2
+imageCap = 5
 numThreads = 0
 
 # Very safe code
@@ -17,24 +18,18 @@ ID = "randomID"
 code = "51413"
 
 
-threads = queue.Queue()
-def run():
-    global numThreads
-    while True:
-        imageName = getImage()
-        if numThreads >= threadCap:
-            firstThread = threads.get()
-            # wait for first thread in queue to finish
-            firstThread.join()
-        else:
-            numThreads += 1
+images = queue.Queue()
+threads = []
+threadSem = threading.Semaphore(0)
+prodSem = threading.Semaphore(imageCap)
+mutex = threading.Semaphore(1)
 
-        # add upload thread to queue
-        newThread = threading.Thread(target=upload, args=[imageName])
-        threads.put(newThread)
+
+def makeThreads():
+    for i in range(threadCap):
+        newThread = threading.Thread(target=upload)
         newThread.start()
-
-        time.sleep(1)
+        threads.append(newThread)
 
 
 def getImage():
@@ -44,12 +39,30 @@ def getImage():
     return imageFile
 
 
-def upload(imageFile):
-    files = {
-        'id': ID,
-        'file': (imageFile, open(imagePath, 'rb'))
-    }
-    response = requests.post(url, files=files)
+def upload():
+    while True:
+        threadSem.acquire()
+        with mutex:
+            imageFile = images.get()
+        files = {
+            'id': ID,
+            'file': (imageFile, open(imagePath, 'rb'))
+        }
+        response = requests.post(url, files=files)
+        subprocess.Popen(["rm",imageFile])
+        prodSem.release()
+
+
+def run():
+    global numThreads
+    makeThreads()
+    while True:
+        prodSem.acquire()
+        imageName = getImage()
+        with mutex:
+            images.put(imageName)
+        threadSem.release()
+        time.sleep(1)
 
 
 if __name__ == '__main__':
