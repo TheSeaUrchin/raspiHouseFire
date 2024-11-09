@@ -46,6 +46,7 @@ def upload():
         threadSem.acquire()
         with mutex:
             imageFile = images.get()
+            print(f"ImageQueue:{list(images.queue)}")
         files = {
             'id': ID,
             'file': (imageFile, open(imageFile, 'rb'))
@@ -54,7 +55,6 @@ def upload():
         #response = requests.post(url, files=files)
         time.sleep(3)
         print(f"Uploaded file {imageFile}")
-        print(f"ImageQueue:{list(images.queue)}")
         subprocess.Popen(["rm",imageFile])
         prodSem.release()
 
