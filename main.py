@@ -36,7 +36,8 @@ def getImage():
     # might change to subprocess, depends on how long upload takes compared to image capture
     #os.system("./webcam.sh")
     os.system("./testCam.sh")
-    imageFile = os.environ['NEW_IMAGE']
+    res = subprocess.run(["./testCam.sh"], capture_output=True, text=True)
+    imageFile = res.stdout.strip()
     return imageFile
 
 
