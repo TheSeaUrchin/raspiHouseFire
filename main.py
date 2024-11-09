@@ -34,7 +34,8 @@ def makeThreads():
 
 def getImage():
     # might change to subprocess, depends on how long upload takes compared to image capture
-    os.system("./webcam.sh")
+    #os.system("./webcam.sh")
+    os.system("./testCam.sh")
     imageFile = os.environ['NEW_IMAGE']
     return imageFile
 
@@ -46,9 +47,11 @@ def upload():
             imageFile = images.get()
         files = {
             'id': ID,
-            'file': (imageFile, open(imagePath, 'rb'))
+            'file': (imageFile, open(imageFile, 'rb'))
         }
-        response = requests.post(url, files=files)
+        print(f"Uploaded file {imageFile}")
+        #response = requests.post(url, files=files)
+        time.sleep(3)
         subprocess.Popen(["rm",imageFile])
         prodSem.release()
 
