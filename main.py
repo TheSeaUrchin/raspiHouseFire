@@ -15,7 +15,7 @@ threadCap = 1
 imageCap = 1
 numThreads = 0
 numFalses = 3
-count = 5
+count = 3
 
 # Very safe code
 ID = "randomID"
@@ -75,6 +75,7 @@ def upload():
 
 
 def run():
+
     global numThreads
     global count
     makeThreads()
@@ -82,9 +83,7 @@ def run():
         prodSem.acquire()
         imageName = getImage()
         lightOn = processImage(imageName)
-        print("oldStatus", lightOn)
-        
-        if lightOn == False and count<5:
+        if lightOn == False and count<3:
             lightOn = True
             count += 1
         elif lightOn == True:
