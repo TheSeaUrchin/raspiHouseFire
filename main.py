@@ -9,7 +9,7 @@ from ImageProcess import processImage
 serverName = "api.ismyhouseonfire.tech"
 endpoint = "upload"
 imagePath = "./fire.jpg"
-url = "https://" + serverName + "/" + endpoint
+url = "http://" + serverName + "/" + endpoint
 threadCap = 1
 imageCap = 1
 numThreads = 0
