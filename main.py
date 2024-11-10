@@ -14,6 +14,8 @@ headers = {"Content-Type": "application/json"}
 threadCap = 1
 imageCap = 1
 numThreads = 0
+numFalses = 3
+count = 3
 
 # Very safe code
 ID = "randomID"
@@ -44,6 +46,7 @@ def getImage():
 
 
 def upload():
+    global count
     while True:
         threadSem.acquire()
         with mutex:
@@ -59,6 +62,7 @@ def upload():
         response = requests.post(url, headers=headers, json=files)
         if response.status_code != 200:
             print(response)
+
         else:
             print("Sent Successfully")
 
@@ -77,13 +81,19 @@ def run():
         prodSem.acquire()
         imageName = getImage()
         lightOn = processImage(imageName)
+        print("oldStatus", lightOn)
+        
+        if lightOn == False and count<3:
+            lightOn = True
+            count += 1
+        elif lightOn == True:
+            count = 0
         with mutex:
             images.put((imageName, lightOn))
             #print(f"ImageQueue:{list(images.queue)}")
         threadSem.release()
-        time.sleep(1)
+        time.sleep(2)
 
 
 if __name__ == '__main__':
     run()
-
