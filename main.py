@@ -50,12 +50,12 @@ def upload():
 
 
         files = {
-            'id': ID,
-            'file': (imageFile, open(imageFile, 'rb')),
-            'lightOn': lightOn
+            'code': ID,
+            'key': "hello",
+            'lightOn': str(lightOn).lower()
         }
 
-        # response = requests.post(url, files=files)
+        response = requests.post(url, files=files)
         time.sleep(3)
         print(f"Uploaded file {imageFile}, lightOn is {lightOn}")
         subprocess.Popen(["rm",imageFile])

@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 # boundary for light color
-redBoundary = ([140, 180, 180], [179, 255, 255])
+redBoundary = ([148, 9, 192], [167, 191, 255])
 sizeThreshHold = 10
 
 
@@ -23,7 +23,7 @@ def processImage(fileName):
 	''' Image Output '''
 
 	output = cv2.bitwise_and(image, image, mask=mask)
-	cv2.imwrite('newImage.jpg',output)
+	cv2.imwrite('newImage.jpg', output)
 	# cv2.imshow("OG",image)
 	# cv2.imshow("images", output)
 	# cv2.waitKey(0)
