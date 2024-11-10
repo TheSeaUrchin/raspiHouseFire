@@ -22,9 +22,12 @@ def processImage(fileName):
 
 	''' Image Output '''
 
-	# output = cv2.bitwise_and(image, image, mask=mask)
+	output = cv2.bitwise_and(image, image, mask=mask)
+	cv2.imwrite('newImage.jpg',output)
 	# cv2.imshow("OG",image)
 	# cv2.imshow("images", output)
 	# cv2.waitKey(0)
 
 	return count > sizeThreshHold
+
+processImage('imageName.jpg')
