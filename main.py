@@ -10,6 +10,7 @@ serverName = "api.ismyhouseonfire.tech"
 endpoint = "upload"
 imagePath = "./fire.jpg"
 url = "http://" + serverName + "/" + endpoint
+headers = {"Content-Type": "application/json"}
 threadCap = 1
 imageCap = 1
 numThreads = 0
@@ -55,9 +56,9 @@ def upload():
             'lightOn': str(lightOn).lower()
         }
 
-        response = requests.post(url, files=files)
+        response = requests.post(url, headers=headers, json=files)
         if response.status_code != 200:
-            print(f"ERROR: {response.status_code}")
+            print(response)
         else:
             print("Sent Successfully")
 
