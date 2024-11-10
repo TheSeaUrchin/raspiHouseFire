@@ -76,6 +76,7 @@ def upload():
 
 def run():
     global numThreads
+    global count
     makeThreads()
     while True:
         prodSem.acquire()
@@ -93,6 +94,29 @@ def run():
             #print(f"ImageQueue:{list(images.queue)}")
         threadSem.release()
         time.sleep(2)
+
+def run2():
+    while True:
+        imageName = getImage()
+        lightOn = processImage(imageName)
+        files = {
+            'code': code,
+            'key': "hello",
+            'status': str(lightOn).lower()
+        }
+
+        response = requests.post(url, headers=headers, json=files)
+        if response.status_code != 200:
+            print(response)
+        else:
+            print("Sent Successfully")
+
+        # time.sleep(3)
+        # print(f"Uploaded file {imageFile}, lightOn is {lightOn}")
+        print(f"light is:{lightOn}")
+        os.system(f"rm {imageName}")
+
+        # subprocess.Popen(["rm", imageName])
 
 
 if __name__ == '__main__':
