@@ -17,7 +17,7 @@ numThreads = 0
 
 # Very safe code
 ID = "randomID"
-code = "51413"
+code = "99999"
 
 
 images = queue.Queue()
@@ -51,7 +51,7 @@ def upload():
 
 
         files = {
-            'code': ID,
+            'code': code,
             'key': "hello",
             'lightOn': str(lightOn).lower()
         }
