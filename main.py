@@ -62,7 +62,7 @@ def upload():
         else:
             print("Sent Successfully")
 
-        time.sleep(3)
+        # time.sleep(3)
         #print(f"Uploaded file {imageFile}, lightOn is {lightOn}")
         print(f"light is:{lightOn}")
 
