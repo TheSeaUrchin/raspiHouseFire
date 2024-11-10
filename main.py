@@ -53,7 +53,7 @@ def upload():
         files = {
             'code': code,
             'key': "hello",
-            'lightOn': str(lightOn).lower()
+            'status': str(lightOn).lower()
         }
 
         response = requests.post(url, headers=headers, json=files)
