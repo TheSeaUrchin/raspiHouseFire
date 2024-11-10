@@ -3,7 +3,7 @@ import cv2
 
 # boundary for light color
 redBoundary = ([148, 9, 192], [167, 191, 255])
-sizeThreshHold = 10
+sizeThreshHold = 50
 
 
 def processImage(fileName):
@@ -19,16 +19,16 @@ def processImage(fileName):
 	# apply mask to colors in range
 	mask = cv2.inRange(hsv, lower, upper)
 	count = cv2.countNonZero(mask)
-	print(count)
+#	print(count)
 
 	''' Image Output '''
 
 	output = cv2.bitwise_and(image, image, mask=mask)
-	cv2.imwrite('newImage.jpg', output)
+#	cv2.imwrite('newImage.jpg', output)
 	# cv2.imshow("OG",image)
 	# cv2.imshow("images", output)
 	# cv2.waitKey(0)
 
 	return count > sizeThreshHold
 
-processImage('imageName.jpg')
+# processImage('imageName.jpg')
