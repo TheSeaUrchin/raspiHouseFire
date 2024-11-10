@@ -10,8 +10,8 @@ serverName = "ismyhouseonfire.tech"
 endpoint = "upload"
 imagePath = "./fire.jpg"
 url = "http://" + serverName + "/" + endpoint
-threadCap = 2
-imageCap = 3
+threadCap = 1
+imageCap = 1
 numThreads = 0
 
 # Very safe code
@@ -56,8 +56,15 @@ def upload():
         }
 
         response = requests.post(url, files=files)
+        if response.status_code != 200:
+            print(f"ERROR: {response.status_code}")
+        else:
+            print("Sent Successfully")
+
         time.sleep(3)
-        print(f"Uploaded file {imageFile}, lightOn is {lightOn}")
+        #print(f"Uploaded file {imageFile}, lightOn is {lightOn}")
+        print(f"light is:{lightOn}")
+
         subprocess.Popen(["rm",imageFile])
         prodSem.release()
 
@@ -71,7 +78,7 @@ def run():
         lightOn = processImage(imageName)
         with mutex:
             images.put((imageName, lightOn))
-            print(f"ImageQueue:{list(images.queue)}")
+            #print(f"ImageQueue:{list(images.queue)}")
         threadSem.release()
         time.sleep(1)
 
