@@ -6,10 +6,10 @@ import queue
 import os
 from ImageProcess import processImage
 
-serverName = "ismyhouseonfire.tech"
+serverName = "api.ismyhouseonfire.tech"
 endpoint = "upload"
 imagePath = "./fire.jpg"
-url = "http://" + serverName + "/" + endpoint
+url = "https://" + serverName + "/" + endpoint
 threadCap = 1
 imageCap = 1
 numThreads = 0
