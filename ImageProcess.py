@@ -19,7 +19,7 @@ def processImage(fileName):
 	# apply mask to colors in range
 	mask = cv2.inRange(hsv, lower, upper)
 	count = cv2.countNonZero(mask)
-#	print(count)
+	print(count)
 
 	''' Image Output '''
 
