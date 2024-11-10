@@ -15,7 +15,7 @@ threadCap = 1
 imageCap = 1
 numThreads = 0
 numFalses = 3
-count = 3
+count = 5
 
 # Very safe code
 ID = "randomID"
@@ -84,7 +84,7 @@ def run():
         lightOn = processImage(imageName)
         print("oldStatus", lightOn)
         
-        if lightOn == False and count<3:
+        if lightOn == False and count<5:
             lightOn = True
             count += 1
         elif lightOn == True:
@@ -93,7 +93,7 @@ def run():
             images.put((imageName, lightOn))
             #print(f"ImageQueue:{list(images.queue)}")
         threadSem.release()
-        time.sleep(2)
+        time.sleep(1)
 
 def run2():
     while True:
